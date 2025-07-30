@@ -2,7 +2,7 @@
 import app from './app'
 import { connectDB } from './config/dbConnection';
 
-const PORT = process.env.PORT || 1998;
+const PORT = process.env.PORT || 1999;
 const serverStart = async () => {
     connectDB();
     app.listen(PORT, () => {

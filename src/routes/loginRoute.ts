@@ -1,6 +1,8 @@
-import { Router } from "express";
- 
+import express from 'express';
+import { loginController } from '../controllers/login/loginController';
+import { isPasswordValid } from '../ middlewares/userData';
 
-const router = Router();
+const router = express.Router();
+router.post('/', isPasswordValid, loginController);
 
-router.route('/newUser').post()
+export default router;
