@@ -1,8 +1,7 @@
-import express from 'express';
-import { loginController } from '../controllers/login/loginController';
-import { isPasswordValid } from '../ middlewares/userData';
+import router from "./signUpRoute";
+import { loginAuthentication } from "../ middlewares/login/index";
+import { loginController } from "../controllers/login/loginController";
 
-const router = express.Router();
-router.post('/', isPasswordValid, loginController);
+router.get('/', loginAuthentication, loginController);
 
 export default router;

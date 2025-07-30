@@ -15,6 +15,8 @@
 // export default app;
 
 
+import signUpRoute from './routes/signUpRoute';
+import loginRoute from './routes/loginRoute';
 import express from 'express';
 import { config } from 'dotenv';
 // import bodyParser from 'body-parser';
@@ -24,13 +26,12 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/login', loginRoute);
 
-import authRoutes from './routes/loginRoute'; // <-- Import the signup route
 // Use the auth routes for authentication endpoints
 // app.use('/api/auth', authRoutes);
-app.use('/signup',authRoutes)
+app.use('/signup', signUpRoute)
 
-// Optionally, keep a simple health check route
 app.get('/', (req, res) => {
   res.send("API is running");
 });

@@ -1,22 +1,24 @@
-import { Request, Response, NextFunction } from "express";
-import User from "../../models/loginModal";
-
+import { NextFunction, Request, Response, response } from "express";
+import User from "../../models/signUpModal";
+import jwt from 'jsonwebtoken'
 
 export const loginController = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const { username, password } = req.body;
+    try {
+        const { username, password } = req.body;
 
-    console.log(username, password);
-    // Check if user already exists
-    const existingUser = await User.findOne({ username });
-    if (existingUser) {
-      return res.status(409).json({ message: 'Username already exists' });
+        const user = await User.findOne({ username }).select('+password');
+        if (!user) {
+            return res.status(401).json({ message: 'Invalid username or password' });
+        }
+        const isMatch = await user.isValidPassword(password);
+        if (!isMatch) {
+            return res.status(401).json({ message: 'Invalid username or password' });
+        }
+
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET || 'secret', { expiresIn: '1h' });
+
+        res.status(200).json({ message: 'Login successful', token });
+    } catch (err) {
+        res.status(500).json({ message: 'Server error', error: err });
     }
-    // Create and save new user
-    const user = new User({ username, password });
-    await user.save();
-    res.status(201).json({ message: 'User created successfully' });
-  } catch (err) {
-    res.status(500).json({ message: 'Server error', error: err });
-  }
-}
+};
