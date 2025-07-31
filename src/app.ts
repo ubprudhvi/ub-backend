@@ -17,8 +17,10 @@
 
 import signUpRoute from './routes/signUpRoute';
 import loginRoute from './routes/loginRoute';
+import personalInfoRoute from './routes/personalInfoRoute';
 import express from 'express';
 import { config } from 'dotenv';
+import updateUserPersonalInfoRoute from './routes/updateUserPersonalInfoRoute';
 // import bodyParser from 'body-parser';
 
 config();
@@ -31,6 +33,8 @@ app.use('/login', loginRoute);
 // Use the auth routes for authentication endpoints
 // app.use('/api/auth', authRoutes);
 app.use('/signup', signUpRoute)
+app.use('/userInfo', personalInfoRoute);
+app.use('/userInfo/', updateUserPersonalInfoRoute);
 
 app.get('/', (req, res) => {
   res.send("API is running");
