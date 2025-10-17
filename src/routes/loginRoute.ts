@@ -1,6 +1,7 @@
-import { Router } from "express";
- 
+import router from "./signUpRoute";
+import { loginAuthentication } from "../ middlewares/login/index";
+import { loginController } from "../controllers/login/loginController";
 
-const router = Router();
+router.get('/', loginAuthentication, loginController);
 
-router.route('/newUser').post()
+export default router;
